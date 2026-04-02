@@ -1,0 +1,14 @@
+<?php
+
+class InvalidUserPasswordException extends InvalidArgumentException
+{
+    public static function becauseValueIsEmpty()
+    {
+        return new self("La contraseña no puede estar vacío.");
+    }
+
+    public static function becauseLengthIsTooShort($min)
+    {
+        return new self("La contraseña debe tener al menos " . $min . " caracteres.");
+    }
+}
