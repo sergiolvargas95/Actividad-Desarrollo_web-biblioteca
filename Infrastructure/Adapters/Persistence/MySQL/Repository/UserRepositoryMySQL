@@ -134,5 +134,6 @@ final class UserRepositoryMySql implements
 
             $statement->execute(array(
                 ':id' => $userId->value(),
-            )); }
+            ));
+        }
     }
