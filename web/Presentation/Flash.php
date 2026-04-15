@@ -62,7 +62,7 @@ final class Flash
 
     public static function message(): string
     {
-        $message = self:get('message', '');
+        $message = self::get('message', '');
 
         return is_string($message) ? $message : '';
     }

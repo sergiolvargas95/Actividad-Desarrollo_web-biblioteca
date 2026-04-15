@@ -11,7 +11,7 @@ final class UserPersistenceDto
     private string $role;
     private string $status;
 
-    pubic function __construct(
+    public function __construct(
         string $id,
         string $name,
         string $email,

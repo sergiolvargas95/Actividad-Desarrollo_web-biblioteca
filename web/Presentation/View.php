@@ -6,9 +6,9 @@ final class View
 {
     public static function render(string $template, array $data = array()): void
     {
-        $file = '__DIR__' . '/Views/' . $template . '.php';
+        $file = dirname(dirname(__DIR__)) . '/Views/' . $template . '.php';
 
-        if(!file_Exists($file)) {
+        if(!file_exists($file)) {
             throw new RuntimeException('Vista no encontrada: ' . $template);
         }
 

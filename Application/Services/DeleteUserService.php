@@ -30,6 +30,6 @@ final class DeleteUserService implements DeleteUserUseCase
             throw UserNotFoundException::becauseIdWasNotFound($userId->value());
         }
 
-        $this->deleteUserPort->($userId);
+        $this->deleteUserPort->delete($userId);
     }
 }

@@ -8,7 +8,7 @@ require_once __DIR__ . '/../Dto/UpdateUserRequest.php';
 require_once __DIR__ . '/../Dto/UserResponse.php';
 
 require_once __DIR__ . '/../../../../../Application/Services/Dto/Commands/CreateUserCommand.php';
-require_once __DIR__ . '/../../../../../Application/Services/Dto/Commands/UpdateUserCommand.php';
+require_once __DIR__ . '/../../../../../Application/Services/Dto/Commands/UpatedUserCommand.php';
 require_once __DIR__ . '/../../../../../Application/Services/Dto/Commands/DeleteUserCommand.php';
 require_once __DIR__ . '/../../../../../Application/Services/Dto/Queries/GetUserByIdQuery.php';
 
@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../../../../Domain/Models/UserModel.php';
 
 final class UserWebMapper
 {
-    public function fromCreateRequestToCommand(CreateUserRequest $request): CreateUserCommand
+    public function fromCreateRequestToCommand(CreateUserWebRequest $request): CreateUserCommand
     {
         return new CreateUserCommand(
             $request->getId(),
@@ -27,7 +27,7 @@ final class UserWebMapper
         );
     }
 
-    public function fromUpdateRequestToCommand(UpdateUserRequest $request): UpdateUserCommand
+    public function fromUpdateRequestToCommand(UpdateUserWebRequest $request): UpdateUserCommand
     {
         return new UpdateUserCommand(
             $request->getId(),

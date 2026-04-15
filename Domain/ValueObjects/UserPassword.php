@@ -25,8 +25,20 @@ class UserPassword
         return $this->value;
     }
 
-    public function equals(UserName $other) {
+    public function equals(UserPassword $other): bool
+    {
         return $this->value === $other->value();
+    }
+
+    public static function fromHash(string $hash): self
+    {
+        $instance = new self($hash);
+        return $instance;
+    }
+
+    public static function fromPlainText(string $plain): self
+    {
+        return new self($plain);
     }
 
     public function __toString()

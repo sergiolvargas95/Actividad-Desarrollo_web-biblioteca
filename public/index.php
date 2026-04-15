@@ -27,8 +27,9 @@ declare(strict_types=1);
     // ──────────────────────────────────────────────────────────────────────────────
     require_once __DIR__ . '/../Common/ClassLoader.php';
     require_once __DIR__ . '/../Common/DependencyInjection.php';
-    require_once __DIR__ . '/../Infrastructure/Entrypoints/Web/Presentation/View.php';
-    require_once __DIR__ . '/../Infrastructure/Entrypoints/Web/Presentation/Flash.php';
+    require_once __DIR__ . '/../web/Presentation/View.php';
+    require_once __DIR__ . '/../web/Presentation/Flash.php';
+    require_once __DIR__ . '/../web/Controllers/config/WebRoutes.php';
 
     DependencyInjection::boot(); Flash::start();
 
@@ -288,7 +289,7 @@ declare(strict_types=1);
                             case 'auth.authenticate':
                                 Flash::setOld(array('email' => trim(strtolower((string) ($_POST['email'] ?? '')))));
                                 View::redirect('auth.login');
-                                break
+                                break;
                             case 'auth.forgot.send':
                                 Flash::setOld(array('email' => trim((string) ($_POST['email'] ?? ''))));
                                 View::redirect('auth.forgot');
@@ -312,7 +313,7 @@ declare(strict_types=1);
                     // Email helper
                     // ──────────────────────────────────────────────────────────────
                     function sendPasswordRecoveryEmail(string $email, string $name, string $tempPassword): void {
-                        $templateFile = __DIR__ . '/../Infrastructure/Entrypoints/Web/Presentation/Views/emails/forgot-password.php';
+                        $templateFile = __DIR__ . '/../Views/email/forgot-password.php';
 
                         ob_start();
                         extract(array('email' => $email, 'name' => $name, 'tempPassword' => $tempPassword), EXTR_SKIP);

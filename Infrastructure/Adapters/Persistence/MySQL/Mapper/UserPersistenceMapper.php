@@ -13,7 +13,7 @@ require_once __DIR__ . '/../../../../../Domain/ValueObjects/UserPassword.php';
 
 final class UserPersistenceMapper
 {
-    public function formModelToDto(UserModel $user): UserPersistenceDto
+    public function fromModelToDto(UserModel $user): UserPersistenceDto
     {
         return new UserPersistenceDto(
             $user->id()->value(),
@@ -65,7 +65,7 @@ final class UserPersistenceMapper
     public function fromRowToModel(array $row): UserModel
     {
         return $this->fromEntityToModel(
-            $this->fromRowToEntity($row);
+            $this->fromRowToEntity($row)
         );
     }
 

@@ -25,7 +25,7 @@ final class CreateUserService implements CreateUserUseCase
     public function execute(CreateUserCommand $command): UserModel
     {
         $email          = new UserEmail($command->getEmail());
-        $existingUser   = $this->getUserByEmailPort->getEmail($email);
+        $existingUser   = $this->getUserByEmailPort->getByEmail($email);
 
         if($existingUser !== null) {
             throw UserAlreadyExistsException::becauseEmailAlreadyExists($email->value());

@@ -1,9 +1,9 @@
 <?php
 
 require_once __DIR__ . '/../ValueObjects/UserId.php';
+require_once __DIR__ . '/../ValueObjects/UserName.php';
 require_once __DIR__ . '/../ValueObjects/UserEmail.php';
 require_once __DIR__ . '/../ValueObjects/UserPassword.php';
-require_once __DIR__ . '/../ValueObjects/UserEmail.php';
 require_once __DIR__ . '/../Enums/UserRoleEnum.php';
 require_once __DIR__ . '/../Enums/UserStatusEnum.php';
 
@@ -78,6 +78,14 @@ final class UserModel
         return new self(
             $this->id, $this->name, $this->email,
             $this->password, $this->role, UserStatusEnum::INACTIVE
+        );
+    }
+
+    public function changePassword(UserPassword $password): self
+    {
+        return new self(
+            $this->id, $this->name, $this->email,
+            $password, $this->role, $this->status
         );
     }
 }

@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../../Domain/Enums/UserStatusEnum.php';
 
 final class UserApplicationMapper
 {
-    public static function fromCrateCommandToModel(CreateUserCommand $command): UserModel
+    public static function fromCreateCommandToModel(CreateUserCommand $command): UserModel
     {
         return new UserModel (
             new UserId($command->getId()),
