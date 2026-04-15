@@ -57,6 +57,69 @@ final class ClassLoader
         'ForgotPasswordService' => 'Application/Services/ForgotPasswordService.php',
         'UserApplicationMapper' => 'Application/Services/Mappers/UserApplicationMapper.php',
 
+        // ── Biblioteca: Exceptions ────────────────────────────────────────────────
+        'InvalidBibliotecaIdException'        => 'Domain/Exceptions/InvalidBibliotecaIdException.php',
+        'InvalidBibliotecaNombreException'    => 'Domain/Exceptions/InvalidBibliotecaNombreException.php',
+        'InvalidBibliotecaDireccionException' => 'Domain/Exceptions/InvalidBibliotecaDireccionException.php',
+        'InvalidBibliotecaCiudadException'    => 'Domain/Exceptions/InvalidBibliotecaCiudadException.php',
+        'InvalidBibliotecaPaisException'      => 'Domain/Exceptions/InvalidBibliotecaPaisException.php',
+        'InvalidBibliotecaTelefonoException'  => 'Domain/Exceptions/InvalidBibliotecaTelefonoException.php',
+        'InvalidBibliotecaEmailException'     => 'Domain/Exceptions/InvalidBibliotecaEmailException.php',
+        'InvalidBibliotecaHorarioException'   => 'Domain/Exceptions/InvalidBibliotecaHorarioException.php',
+        'InvalidBibliotecaWebException'       => 'Domain/Exceptions/InvalidBibliotecaWebException.php',
+        'BibliotecaNotFoundException'         => 'Domain/Exceptions/BibliotecaNotFoundException.php',
+        'BibliotecaAlreadyExistsException'    => 'Domain/Exceptions/BibliotecaAlreadyExistsException.php',
+
+        // ── Biblioteca: Value Objects ─────────────────────────────────────────────
+        'BibliotecaId'        => 'Domain/ValueObjects/BibliotecaId.php',
+        'BibliotecaNombre'    => 'Domain/ValueObjects/BibliotecaNombre.php',
+        'BibliotecaDireccion' => 'Domain/ValueObjects/BibliotecaDireccion.php',
+        'BibliotecaCiudad'    => 'Domain/ValueObjects/BibliotecaCiudad.php',
+        'BibliotecaPais'      => 'Domain/ValueObjects/BibliotecaPais.php',
+        'BibliotecaTelefono'  => 'Domain/ValueObjects/BibliotecaTelefono.php',
+        'BibliotecaEmail'     => 'Domain/ValueObjects/BibliotecaEmail.php',
+        'BibliotecaHorario'   => 'Domain/ValueObjects/BibliotecaHorario.php',
+        'BibliotecaWeb'       => 'Domain/ValueObjects/BibliotecaWeb.php',
+
+        // ── Biblioteca: Model ─────────────────────────────────────────────────────
+        'BibliotecaModel' => 'Domain/Models/BibliotecaModel.php',
+
+        // ── Biblioteca: Ports In ──────────────────────────────────────────────────
+        'CreateBibliotecaUseCase'      => 'Application/Ports/In/CreateBibliotecaUseCase.php',
+        'UpdateBibliotecaUseCase'      => 'Application/Ports/In/UpdateBibliotecaUseCase.php',
+        'DeleteBibliotecaUseCase'      => 'Application/Ports/In/DeleteBibliotecaUseCase.php',
+        'GetBibliotecaByIdUseCase'     => 'Application/Ports/In/GetBibliotecaByIdUseCase.php',
+        'GetAllBibliotecasUseCase'     => 'Application/Ports/In/GetAllBibliotecasUseCase.php',
+
+        // ── Biblioteca: Ports Out ─────────────────────────────────────────────────
+        'SaveBibliotecaPort'           => 'Application/Ports/Out/SaveBibliotecaPort.php',
+        'UpdateBibliotecaPort'         => 'Application/Ports/Out/UpdateBibliotecaPort.php',
+        'DeleteBibliotecaPort'         => 'Application/Ports/Out/DeleteBibliotecaPort.php',
+        'GetBibliotecaByIdPort'        => 'Application/Ports/Out/GetBibliotecaByIdPort.php',
+        'GetBibliotecaByNombrePort'    => 'Application/Ports/Out/GetBibliotecaByNombrePort.php',
+        'GetAllBibliotecasPort'        => 'Application/Ports/Out/GetAllBibliotecasPort.php',
+
+        // ── Biblioteca: Commands & Queries ────────────────────────────────────────
+        'CreateBibliotecaCommand'  => 'Application/Services/Dto/Commands/CreateBibliotecaCommand.php',
+        'UpdateBibliotecaCommand'  => 'Application/Services/Dto/Commands/UpdateBibliotecaCommand.php',
+        'DeleteBibliotecaCommand'  => 'Application/Services/Dto/Commands/DeleteBibliotecaCommand.php',
+        'GetBibliotecaByIdQuery'   => 'Application/Services/Dto/Queries/GetBibliotecaByIdQuery.php',
+        'GetAllBibliotecasQuery'   => 'Application/Services/Dto/Queries/GetAllBibliotecasQuery.php',
+
+        // ── Biblioteca: Services ──────────────────────────────────────────────────
+        'CreateBibliotecaService'      => 'Application/Services/CreateBibliotecaService.php',
+        'UpdateBibliotecaService'      => 'Application/Services/UpdateBibliotecaService.php',
+        'DeleteBibliotecaService'      => 'Application/Services/DeleteBibliotecaService.php',
+        'GetBibliotecaByIdService'     => 'Application/Services/GetBibliotecaByIdService.php',
+        'GetAllBibliotecasService'     => 'Application/Services/GetAllBibliotecasService.php',
+        'BibliotecaApplicationMapper'  => 'Application/Services/Mappers/BibliotecaApplicationMapper.php',
+
+        // ── Biblioteca: Infrastructure ────────────────────────────────────────────
+        'BibliotecaPersistenceDto'     => 'Infrastructure/Adapters/Persistence/MySQL/Dto/BibliotecaPersistenceDto.php',
+        'BibliotecaEntity'             => 'Infrastructure/Adapters/Persistence/MySQL/Entity/BibliotecaEntity.php',
+        'BibliotecaPersistenceMapper'  => 'Infrastructure/Adapters/Persistence/MySQL/Mapper/BibliotecaPersistenceMapper.php',
+        'BibliotecaRepositoryMySQL'    => 'Infrastructure/Adapters/Persistence/MySQL/Repository/BibliotecaRepositoryMySQL.php',
+
         'Connection' => 'Infrastructure/Adapters/Persistence/MySQL/Config/Connection.php',
         'UserPersistenceDto' => 'Infrastructure/Adapters/Persistence/MySQL/Dto/UserPersistenceDto.php',
         'UserEntity' => 'Infrastructure/Adapters/Persistence/MySQL/Entity/UserEntity.php',
