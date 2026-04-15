@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-public static function routes(): array
+final class WebRoutes
+{
+    public static function routes(): array
 {
     return array(
         'home' => array(
@@ -58,4 +60,5 @@ public static function routes(): array
             'action' => 'forgot.send',
         ),
     );
+}
 }

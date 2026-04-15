@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 
-require_once __DIR__ . '/Mapper/UserWebMapper.php';
+require_once __DIR__ . '/Mapper/UserWebRoutes.php';
 
-require_once __DIR__ . '/../../../../Application/Ports/In/CreateUserUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/UpdateUserUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/GetUserByIdUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/GetAllUsersUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/DeleteUserUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/CreateUserUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/UpdateUserUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/GetUserByIdUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/GetAllUsersUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/DeleteUserUseCase.php';
 
-require_once __DIR__ . '/../../../../Application/Services/Dto/Queries/GetAllUsersQuery.php';
+require_once __DIR__ . '/../../Application/Services/Dto/Queries/GetAllUsersQuery.php';
 
 final class UserController
 {
@@ -48,12 +48,12 @@ final class UserController
     public function show(string $id): UserResponse
     {
         $query = $this->mapper->fromIdToGetByIdQuery($id);
-        $user = $this->getUserByIdUseCase->execute($quey);
+        $user = $this->getUserByIdUseCase->execute($query);
 
         return $this->mapper->fromModelToResponse($user);
     }
 
-    public function store(CreateUserRequest $request): UserResponse
+    public function store(CreateUserWebRequest $request): UserResponse
     {
         $command = $this->mapper->fromCreateRequestToCommand($request);
         $user = $this->createUserUseCase->execute($command);
@@ -61,12 +61,12 @@ final class UserController
         return $this->mapper->fromModelToResponse($user);
     }
 
-    public function update(UpdateUserRequest $request): UserResponse
+    public function update(UpdateUserWebRequest $request): UserResponse
     {
         $command = $this->mapper->fromUpdateRequestToCommand($request);
         $user = $this->updateUserUseCase->execute($command);
 
-        return $this->mapper->fromModelsToResponses($users);
+        return $this->mapper->fromModelToResponse($user);
     }
 
     public function delete(string $id): void

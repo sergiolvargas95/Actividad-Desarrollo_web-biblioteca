@@ -14,7 +14,7 @@ final class GetAllUsersService implements GetAllUsersUseCase
         $this->getAllUsersPort = $getAllUsersPort;
     }
 
-    public function execute(GetAllUsersQuery $query): arry
+    public function execute(GetAllUsersQuery $query): array
     {
         return $this->getAllUsersPort->getAll();
     }

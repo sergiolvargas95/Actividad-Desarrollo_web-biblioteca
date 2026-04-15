@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-final class CreateUserRequest
+final class CreateUserWebRequest
 {
     private string $id;
     private string $name;

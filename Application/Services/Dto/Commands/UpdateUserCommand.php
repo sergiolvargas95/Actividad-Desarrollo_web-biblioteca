@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-final class UserPersistenceDto
+final class UpdateUserCommand
 {
     private string $id;
     private string $name;
@@ -18,36 +18,37 @@ final class UserPersistenceDto
         string $password,
         string $role,
         string $status
-    ) {
-        $this->id = trim($id);
-        $this->name = trim($name);
-        $this->email = trim($email);
+    )
+    {
+        $this->id       = trim($id);
+        $this->name     = trim($name);
+        $this->email    = trim($email);
         $this->password = trim($password);
-        $this->role = trim($role);
-        $this->status = trim($status);
+        $this->role     = trim($role);
+        $this->status   = trim($status);
     }
 
-    public function id(): string {
+    public function getId(): string {
         return $this->id;
     }
 
-    public function name(): string {
+    public function getName(): string {
         return $this->name;
     }
 
-    public function email(): string {
+    public function getEmail(): string {
         return $this->email;
     }
 
-    public function password(): string {
+    public function getPassword(): string {
         return $this->password;
     }
 
-    public function role(): string {
+    public function getRole(): string {
         return $this->role;
     }
 
-    public function status(): string {
+    public function getStatus(): string {
         return $this->status;
     }
 }

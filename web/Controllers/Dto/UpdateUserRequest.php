@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-final class UpdateUserRequest
+final class UpdateUserWebRequest
 {
     private string $id;
     private string $name;

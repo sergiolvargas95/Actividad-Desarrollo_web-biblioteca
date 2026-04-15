@@ -68,14 +68,15 @@ final class DependencyInjection
         return new GetUserByIdService(self::getUserRepository());
     }
 
-    public static function getAllUsersUseCase(): GetAllUserUseCase
+    public static function getAllUsersUseCase(): GetAllUsersUseCase
     {
         ClassLoader::loadClass('GetAllUsersService');
         return new GetAllUsersService(self::getUserRepository());
     }
 
-    public static function getUserWebMapper(): UserWebMapper
+    public static function getUserController(): UserController
     {
+        ClassLoader::loadClass('UserWebMapper');
         ClassLoader::loadClass('UserController');
         return new UserController(
             self::getCreateUserUseCase(),
@@ -83,7 +84,13 @@ final class DependencyInjection
             self::getUserByIdUseCase(),
             self::getAllUsersUseCase(),
             self::getDeleteUserUseCase(),
-            self::getUserWebMapper()
+            new UserWebMapper()
         );
+    }
+
+    public static function getLoginUseCase(): LoginUseCase
+    {
+        ClassLoader::loadClass('LoginService');
+        return new LoginService(self::getUserRepository());
     }
 }

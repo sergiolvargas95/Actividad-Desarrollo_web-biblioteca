@@ -49,7 +49,7 @@ final class ClassLoader
         'CreateUserService' => 'Application/Services/CreateUserService.php',
         'UpdateUserService' => 'Application/Services/UpdateUserService.php',
         'GetUserByIdService' => 'Application/Services/GetUserByIdService.php',
-        'GetAllUsersService' => 'Application/Services/GetAllUsersService.php',
+        'GetAllUsersService' => 'Application/Services/GetAllUsersServices.php',
         'DeleteUserService' => 'Application/Services/DeleteUserService.php',
         'LoginService' => 'Application/Services/LoginService.php',
         'UserApplicationMapper' => 'Application/Services/Mappers/UserApplicationMapper.php',
@@ -60,16 +60,16 @@ final class ClassLoader
         'UserPersistenceMapper' => 'Infrastructure/Adapters/Persistence/MySQL/Mapper/UserPersistenceMapper.php',
         'UserRepositoryMySQL' => 'Infrastructure/Adapters/Persistence/MySQL/Repository/UserRepositoryMySQL.php',
 
-        'CreateUserWebRequest' => 'Infrastructure/Entrypoints/Web/Controllers/Dto/CreateUserRequest.php',
-        'UpdateUserWebRequest' => 'Infrastructure/Entrypoints/Web/Controllers/Dto/UpdateUserRequest.php',
-        'LoginWebRequest' => 'Infrastructure/Entrypoints/Web/Controllers/Dto/LoginWebRequest.php',
-        'UserResponse' => 'Infrastructure/Entrypoints/Web/Controllers/Dto/UserResponse.php',
-        'UserWebMapper' => 'Infrastructure/Entrypoints/Web/Controllers/Mapper/UserWebMapper.php',
-        'UserController' => 'Infrastructure/Entrypoints/Web/Controllers/UserController.php',
-        'WebRoutes' => 'Infrastructure/Entrypoints/Web/Controllers/Config/WebRoutes.php',
+        'CreateUserWebRequest' => 'web/Controllers/Dto/CreateUserRequest.php',
+        'UpdateUserWebRequest' => 'web/Controllers/Dto/UpdateUserRequest.php',
+        'LoginWebRequest' => 'web/Controllers/Dto/LoginRequest.php',
+        'UserResponse' => 'web/Controllers/Dto/UserResponse.php',
+        'UserWebMapper' => 'web/Controllers/Mapper/UserWebRoutes.php',
+        'UserController' => 'web/Controllers/UserController.php',
+        'WebRoutes' => 'web/Controllers/config/WebRoutes.php',
 
-        'View' => 'Infrastructure/Entrypoints/Web/Presentation/View.php',
-        'Flash' => 'Infrastructure/Entrypoints/Web/Presentation/Flash.php',
+        'View' => 'web/Presentation/View.php',
+        'Flash' => 'web/Presentation/Flash.php',
 
         'DependencyInjection' => 'Common/DependencyInjection.php',
     );
@@ -85,11 +85,11 @@ final class ClassLoader
             return;
         }
 
-        $baseDir = dirname(__DIR__) . DRECTORY_SEPARATOR;
-        $filePath = $barDir . self::$classMap[$className];
+        $baseDir = dirname(__DIR__) . DIRECTORY_SEPARATOR;
+        $filePath = $baseDir . self::$classMap[$className];
 
         if(!file_exists($filePath)) {
-            throw new  new RuntimeException(
+            throw new RuntimeException(
                 sprintf('No se encontró el archivo para la clase %s en %s', $className, $filePath)
             );
         }

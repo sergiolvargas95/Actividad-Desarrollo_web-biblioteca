@@ -9,7 +9,7 @@ final class Connection
     private string $database;
     private string $username;
     private string $password;
-    private string $chartset;
+    private string $charset;
 
     public function __construct (
         string $host,
@@ -17,14 +17,14 @@ final class Connection
         string $database,
         string $username,
         string $password,
-        string $chartset = 'utf8mb4'
+        string $charset = 'utf8mb4'
     ) {
         $this->host     = $host;
         $this->port     = $port;
         $this->database = $database;
         $this->username = $username;
         $this->password = $password;
-        $this->chartset = $chartset;
+        $this->charset  = $charset;
     }
 
     public function createPdo(): PDO
@@ -38,7 +38,7 @@ final class Connection
             $this->username,
             $this->password,
             array(
-                PDO::ATTR_ERROMDE            => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                 PDO::ATTR_EMULATE_PREPARES   => false,
             )

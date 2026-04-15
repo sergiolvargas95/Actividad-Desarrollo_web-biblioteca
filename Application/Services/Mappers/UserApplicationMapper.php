@@ -16,7 +16,7 @@ require_once __DIR__ . '/../../../Domain/Enums/UserStatusEnum.php';
 
 final class UserApplicationMapper
 {
-    public static function fromCrateCommandToModel(CreateUserCommand $command): UserModel
+    public static function fromCreateCommandToModel(CreateUserCommand $command): UserModel
     {
         return new UserModel (
             new UserId($command->getId()),
@@ -28,13 +28,21 @@ final class UserApplicationMapper
         );
     }
 
-    public static function fromUpdateCommandToModel(UpdateUserCommand $command): UserModel
+    public static function fromUpdateCommandToModel(UpdateUserCommand $command, ?UserPassword $currentPassword = null): UserModel
     {
+        $password = ($command->getPassword() !== '')
+            ? new UserPassword($command->getPassword())
+            : $currentPassword;
+
+        if ($password === null) {
+            throw new \InvalidArgumentException('La contraseña es obligatoria.');
+        }
+
         return new UserModel(
             new UserId($command->getId()),
             new UserName($command->getName()),
             new UserEmail($command->getEmail()),
-            new UserPassword($command->getPassword()),
+            $password,
             $command->getRole(),
             $command->getStatus()
         );
