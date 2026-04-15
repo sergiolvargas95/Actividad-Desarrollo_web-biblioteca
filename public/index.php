@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/../vendor/autoload.php';
+
 declare(strict_types=1);
 
 // ── Guardia de seguridad: bloquear acceso directo a archivos/carpetas ──────────
@@ -309,22 +311,30 @@ declare(strict_types=1);
                     // ──────────────────────────────────────────────────────────────
                     function sendPasswordRecoveryEmail(string $email, string $name, string $tempPassword): void {
                         $templateFile = __DIR__ . '/../Views/email/forgot-password.php';
-
                         ob_start();
-                        extract(array('email' => $email, 'name' => $name, 'tempPassword' => $tempPassword), EXTR_SKIP);
+                        extract(['email' => $email, 'name' => $name, 'tempPassword' => $tempPassword], EXTR_SKIP);
                         require $templateFile;
                         $htmlBody = (string) ob_get_clean();
 
-                        $subject = '=?UTF-8?B?' . base64_encode('Recuperación de contraseña') . '?=';
-                        $headers = implode("\r\n", array(
-                            'MIME-Version: 1.0',
-                            'Content-Type: text/html; charset=UTF-8',
-                            'From: CRUD Usuarios <no-reply@crud-usuarios.local>',
-                            'X-Mailer: PHP/' .
-                            PHP_VERSION,
-                        ));
+                        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+                        $mail->isSMTP();
+                        $mail->Host       = 'sandbox.smtp.mailtrap.io';
+                        $mail->SMTPAuth   = true;
+                        $mail->Username   = 'TU_USERNAME_MAILTRAP';   // <-- reemplazar
+                        $mail->Password   = 'TU_PASSWORD_MAILTRAP';   // <-- reemplazar
+                        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+                        $mail->Port       = 2525;
+                        $mail->CharSet    = 'UTF-8';
 
-                        mail($email, $subject, $htmlBody, $headers); }
+                        $mail->setFrom('no-reply@crud-usuarios.local', 'CRUD Usuarios');
+                        $mail->addAddress($email, $name);
+                        $mail->isHTML(true);
+                        $mail->Subject = 'Recuperación de contraseña';
+                        $mail->Body    = $htmlBody;
+
+                        $mail->send();
+                    }
+
                         // ──────────────────────────────────────────────────────────────
                         // View-data builders
                         // ──────────────────────────────────────────────────────────────
