@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-declare(strict_types=1);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 // ── Guardia de seguridad: bloquear acceso directo a archivos/carpetas ──────────
 // El .htaccess redirige internamente cualquier URL que no sea public/ hacia aquí.
@@ -309,31 +312,32 @@ declare(strict_types=1);
                     // ──────────────────────────────────────────────────────────────
                     // Email helper
                     // ──────────────────────────────────────────────────────────────
-                    function sendPasswordRecoveryEmail(string $email, string $name, string $tempPassword): void {
-                        $templateFile = __DIR__ . '/../Views/email/forgot-password.php';
-                        ob_start();
-                        extract(['email' => $email, 'name' => $name, 'tempPassword' => $tempPassword], EXTR_SKIP);
-                        require $templateFile;
-                        $htmlBody = (string) ob_get_clean();
+                        function sendPasswordRecoveryEmail(string $email, string $name, string $tempPassword): void {
+                            $templateFile = __DIR__ . '/../Views/email/forgot-password.php';
+                            ob_start();
+                            extract(['email' => $email, 'name' => $name, 'tempPassword' => $tempPassword], EXTR_SKIP);
+                            require $templateFile;
+                            $htmlBody = (string) ob_get_clean();
 
-                        $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-                        $mail->isSMTP();
-                        $mail->Host       = 'sandbox.smtp.mailtrap.io';
-                        $mail->SMTPAuth   = true;
-                        $mail->Username   = 'TU_USERNAME_MAILTRAP';   // <-- reemplazar
-                        $mail->Password   = 'TU_PASSWORD_MAILTRAP';   // <-- reemplazar
-                        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-                        $mail->Port       = 2525;
-                        $mail->CharSet    = 'UTF-8';
+                            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
+                            $mail->isSMTP();
+                            $mail->Host       = $_ENV['MAIL_HOST'];
+                            $mail->SMTPAuth   = true;
+                            $mail->Username   = $_ENV['MAIL_USERNAME'];
+                            $mail->Password   = $_ENV['MAIL_PASSWORD'];
+                            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+                            $mail->Port       = (int) $_ENV['MAIL_PORT'];
+                            $mail->CharSet    = 'UTF-8';
 
-                        $mail->setFrom('no-reply@crud-usuarios.local', 'CRUD Usuarios');
-                        $mail->addAddress($email, $name);
-                        $mail->isHTML(true);
-                        $mail->Subject = 'Recuperación de contraseña';
-                        $mail->Body    = $htmlBody;
+                            $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
+                            $mail->addAddress($email, $name);
+                            $mail->isHTML(true);
+                            $mail->Subject = 'Recuperación de contraseña';
+                            $mail->Body    = $htmlBody;
 
-                        $mail->send();
-                    }
+                            $mail->send();
+                        }
+
 
                         // ──────────────────────────────────────────────────────────────
                         // View-data builders
