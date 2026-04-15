@@ -5,5 +5,5 @@ require_once __DIR__ . '/../../../Domain/Models/UserModel.php';
 
 interface UpdateUserPort
 {
-    pubic function update(UserModel $user): UserModel;
+    public function update(UserModel $user): UserModel;
 }

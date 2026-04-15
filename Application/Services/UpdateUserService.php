@@ -45,7 +45,7 @@ final class UpdateUserService implements UpdateUserUseCase
             throw UserAlreadyExistsException::becauseEmailAlreadyExists($newEmail->value());
         }
 
-        $userToUpdate = UserApplicationMapper::fromUpdateCommandToModel($command);
+        $userToUpdate = UserApplicationMapper::fromUpdateCommandToModel($command, $currentUser->password());
 
         return $this->updateUserPort->update($userToUpdate);
     }

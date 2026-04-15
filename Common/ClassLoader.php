@@ -40,7 +40,7 @@ final class ClassLoader
         'DeleteUserPort' => 'Application/Ports/Out/DeleteUserPort.php',
 
         'CreateUserCommand' => 'Application/Services/Dto/Commands/CreateUserCommand.php',
-        'UpdateUserCommand' => 'Application/Services/Dto/Commands/UpatedUserCommand.php',
+        'UpdateUserCommand' => 'Application/Services/Dto/Commands/UpdateUserCommand.php',
         'DeleteUserCommand' => 'Application/Services/Dto/Commands/DeleteUserCommand.php',
         'LoginCommand' => 'Application/Services/Dto/Commands/LoginCommand.php',
         'GetUserByIdQuery' => 'Application/Services/Dto/Queries/GetUserByIdQuery.php',

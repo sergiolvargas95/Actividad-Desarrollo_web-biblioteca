@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 
-require_once __DIR__ . '/Mapper/UserWebMapper.php';
+require_once __DIR__ . '/Mapper/UserWebRoutes.php';
 
-require_once __DIR__ . '/../../../../Application/Ports/In/CreateUserUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/UpdateUserUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/GetUserByIdUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/GetAllUsersUseCase.php';
-require_once __DIR__ . '/../../../../Application/Ports/In/DeleteUserUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/CreateUserUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/UpdateUserUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/GetUserByIdUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/GetAllUsersUseCase.php';
+require_once __DIR__ . '/../../Application/Ports/In/DeleteUserUseCase.php';
 
-require_once __DIR__ . '/../../../../Application/Services/Dto/Queries/GetAllUsersQuery.php';
+require_once __DIR__ . '/../../Application/Services/Dto/Queries/GetAllUsersQuery.php';
 
 final class UserController
 {
