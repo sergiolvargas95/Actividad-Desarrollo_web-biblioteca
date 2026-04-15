@@ -31,6 +31,7 @@ final class ClassLoader
         'GetAllUsersUseCase' => 'Application/Ports/In/GetAllUsersUseCase.php',
         'DeleteUserUseCase' => 'Application/Ports/In/DeleteUserUseCase.php',
         'LoginUseCase' => 'Application/Ports/In/LoginUseCase.php',
+        'ForgotPasswordUseCase' => 'Application/Ports/In/ForgotPasswordUseCase.php',
 
         'SaveUserPort' => 'Application/Ports/Out/SaveUserPort.php',
         'UpdateUserPort' => 'Application/Ports/Out/UpdateUserPort.php',
@@ -43,6 +44,7 @@ final class ClassLoader
         'UpdateUserCommand' => 'Application/Services/Dto/Commands/UpdateUserCommand.php',
         'DeleteUserCommand' => 'Application/Services/Dto/Commands/DeleteUserCommand.php',
         'LoginCommand' => 'Application/Services/Dto/Commands/LoginCommand.php',
+        'ForgotPasswordCommand' => 'Application/Services/Dto/Commands/ForgotPasswordCommand.php',
         'GetUserByIdQuery' => 'Application/Services/Dto/Queries/GetUserByIdQuery.php',
         'GetAllUsersQuery' => 'Application/Services/Dto/Queries/GetAllUsersQuery.php',
 
@@ -52,6 +54,7 @@ final class ClassLoader
         'GetAllUsersService' => 'Application/Services/GetAllUsersServices.php',
         'DeleteUserService' => 'Application/Services/DeleteUserService.php',
         'LoginService' => 'Application/Services/LoginService.php',
+        'ForgotPasswordService' => 'Application/Services/ForgotPasswordService.php',
         'UserApplicationMapper' => 'Application/Services/Mappers/UserApplicationMapper.php',
 
         'Connection' => 'Infrastructure/Adapters/Persistence/MySQL/Config/Connection.php',

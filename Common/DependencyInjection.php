@@ -93,4 +93,11 @@ final class DependencyInjection
         ClassLoader::loadClass('LoginService');
         return new LoginService(self::getUserRepository());
     }
+
+    public static function getForgotPasswordUseCase(): ForgotPasswordUseCase
+    {
+        ClassLoader::loadClass('ForgotPasswordService');
+        $repo = self::getUserRepository();
+        return new ForgotPasswordService($repo, $repo);
+    }
 }

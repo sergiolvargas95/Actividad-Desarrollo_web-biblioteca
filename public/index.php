@@ -245,20 +245,15 @@ declare(strict_types=1);
                                     View::redirect('auth.forgot');
                                 }
 
-                                $repository = DependencyInjection::getUserRepository();
-                                $foundUser = $repository->getByEmail(new UserEmail($forgotEmail));
+                                $forgotUseCase = DependencyInjection::getForgotPasswordUseCase();
+                                $forgotResult  = $forgotUseCase->execute(new ForgotPasswordCommand($forgotEmail));
 
                                 // Always show generic success to avoid user enumeration.
-                                if ($foundUser !== null && $foundUser->status() === UserStatusEnum::ACTIVE) {
-                                    // Generate a secure temporary password (10 hex chars ≥ 8 chars).
-                                    $tempPassword = bin2hex(random_bytes(5));
-                                    $newPassword = UserPassword::fromPlainText($tempPassword);
-                                    $updatedUser = $foundUser->changePassword($newPassword);
-                                    $repository->update($updatedUser);
+                                if ($forgotResult !== null) {
                                     sendPasswordRecoveryEmail(
-                                        $foundUser->email()->value(),
-                                        $foundUser->name()->value(),
-                                        $tempPassword
+                                        $forgotResult['email'],
+                                        $forgotResult['name'],
+                                        $forgotResult['tempPassword']
                                     );
                                 }
 
