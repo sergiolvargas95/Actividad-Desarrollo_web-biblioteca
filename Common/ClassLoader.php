@@ -126,6 +126,13 @@ final class ClassLoader
         'UserPersistenceMapper' => 'Infrastructure/Adapters/Persistence/MySQL/Mapper/UserPersistenceMapper.php',
         'UserRepositoryMySQL' => 'Infrastructure/Adapters/Persistence/MySQL/Repository/UserRepositoryMySQL.php',
 
+        // ── Biblioteca: Web ───────────────────────────────────────────────────────
+        'CreateBibliotecaWebRequest' => 'web/Controllers/Dto/CreateBibliotecaRequest.php',
+        'UpdateBibliotecaWebRequest' => 'web/Controllers/Dto/UpdateBibliotecaRequest.php',
+        'BibliotecaResponse'         => 'web/Controllers/Dto/BibliotecaResponse.php',
+        'BibliotecaWebMapper'        => 'web/Controllers/Mapper/BibliotecaWebMapper.php',
+        'BibliotecaController'       => 'web/Controllers/BibliotecaController.php',
+
         'CreateUserWebRequest' => 'web/Controllers/Dto/CreateUserRequest.php',
         'UpdateUserWebRequest' => 'web/Controllers/Dto/UpdateUserRequest.php',
         'LoginWebRequest' => 'web/Controllers/Dto/LoginRequest.php',
