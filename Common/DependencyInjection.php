@@ -100,4 +100,60 @@ final class DependencyInjection
         $repo = self::getUserRepository();
         return new ForgotPasswordService($repo, $repo);
     }
+
+    // ── Biblioteca ────────────────────────────────────────────────────────────────
+
+    public static function getBibliotecaRepository(): BibliotecaRepositoryMySQL
+    {
+        ClassLoader::loadClass('BibliotecaRepositoryMySQL');
+        ClassLoader::loadClass('BibliotecaPersistenceMapper');
+        return new BibliotecaRepositoryMySQL(self::getPdo(), new BibliotecaPersistenceMapper());
+    }
+
+    public static function getCreateBibliotecaUseCase(): CreateBibliotecaUseCase
+    {
+        ClassLoader::loadClass('CreateBibliotecaService');
+        $repo = self::getBibliotecaRepository();
+        return new CreateBibliotecaService($repo, $repo);
+    }
+
+    public static function getUpdateBibliotecaUseCase(): UpdateBibliotecaUseCase
+    {
+        ClassLoader::loadClass('UpdateBibliotecaService');
+        $repo = self::getBibliotecaRepository();
+        return new UpdateBibliotecaService($repo, $repo, $repo);
+    }
+
+    public static function getDeleteBibliotecaUseCase(): DeleteBibliotecaUseCase
+    {
+        ClassLoader::loadClass('DeleteBibliotecaService');
+        $repo = self::getBibliotecaRepository();
+        return new DeleteBibliotecaService($repo, $repo);
+    }
+
+    public static function getGetBibliotecaByIdUseCase(): GetBibliotecaByIdUseCase
+    {
+        ClassLoader::loadClass('GetBibliotecaByIdService');
+        return new GetBibliotecaByIdService(self::getBibliotecaRepository());
+    }
+
+    public static function getGetAllBibliotecasUseCase(): GetAllBibliotecasUseCase
+    {
+        ClassLoader::loadClass('GetAllBibliotecasService');
+        return new GetAllBibliotecasService(self::getBibliotecaRepository());
+    }
+
+    public static function getBibliotecaController(): BibliotecaController
+    {
+        ClassLoader::loadClass('BibliotecaWebMapper');
+        ClassLoader::loadClass('BibliotecaController');
+        return new BibliotecaController(
+            self::getCreateBibliotecaUseCase(),
+            self::getUpdateBibliotecaUseCase(),
+            self::getGetBibliotecaByIdUseCase(),
+            self::getGetAllBibliotecasUseCase(),
+            self::getDeleteBibliotecaUseCase(),
+            new BibliotecaWebMapper()
+        );
+    }
 }
