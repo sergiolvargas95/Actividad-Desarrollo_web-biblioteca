@@ -59,6 +59,36 @@ final class WebRoutes
             'method' => 'POST',
             'action' => 'forgot.send',
         ),
+
+        // ── Bibliotecas ───────────────────────────────────────────────────────────
+        'bibliotecas.index' => array(
+            'method' => 'GET',
+            'action' => 'bibliotecas.index',
+        ),
+        'bibliotecas.create' => array(
+            'method' => 'GET',
+            'action' => 'bibliotecas.create',
+        ),
+        'bibliotecas.store' => array(
+            'method' => 'POST',
+            'action' => 'bibliotecas.store',
+        ),
+        'bibliotecas.show' => array(
+            'method' => 'GET',
+            'action' => 'bibliotecas.show',
+        ),
+        'bibliotecas.edit' => array(
+            'method' => 'GET',
+            'action' => 'bibliotecas.edit',
+        ),
+        'bibliotecas.update' => array(
+            'method' => 'POST',
+            'action' => 'bibliotecas.update',
+        ),
+        'bibliotecas.delete' => array(
+            'method' => 'POST',
+            'action' => 'bibliotecas.delete',
+        ),
     );
 }
 }
