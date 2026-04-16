@@ -269,6 +269,134 @@ $dotenv->load();
 
                                 View::redirect('auth.forgot');
                                 break;
+                            // ── Bibliotecas: Index ────────────────────────────────
+                            case 'bibliotecas.index':
+                                $controller  = DependencyInjection::getBibliotecaController();
+                                $bibliotecas = $controller->index();
+                                View::render('bibliotecas/list', array(
+                                    'pageTitle'   => 'Lista de bibliotecas',
+                                    'bibliotecas' => $bibliotecas,
+                                    'message'     => Flash::message(),
+                                    'success'     => Flash::success(),
+                                ));
+                                break;
+
+                            // ── Bibliotecas: Create ───────────────────────────────
+                            case 'bibliotecas.create':
+                                View::render('bibliotecas/create', array(
+                                    'pageTitle' => 'Registrar biblioteca',
+                                    'message'   => Flash::message(),
+                                    'success'   => Flash::success(),
+                                    'errors'    => Flash::errors(),
+                                    'old'       => Flash::old(),
+                                ));
+                                break;
+
+                            // ── Bibliotecas: Store ────────────────────────────────
+                            case 'bibliotecas.store':
+                                $controller = DependencyInjection::getBibliotecaController();
+                                $form       = getBibliotecaCreateFormData();
+                                $form['id'] = generateUuid4();
+                                $errors     = validateBibliotecaCreateForm($form);
+
+                                if (!empty($errors)) {
+                                    Flash::setOld($form);
+                                    Flash::setErrors($errors);
+                                    Flash::setMessage('Corrige los errores del formulario.');
+                                    View::redirect('bibliotecas.create');
+                                }
+
+                                $request = new CreateBibliotecaWebRequest(
+                                    $form['id'],
+                                    $form['nombre'],
+                                    $form['direccion'],
+                                    $form['ciudad'],
+                                    $form['pais'],
+                                    $form['telefono'],
+                                    $form['email'],
+                                    $form['horario_apertura'],
+                                    $form['horario_cierre'],
+                                    (int) $form['num_libros'],
+                                    (int) $form['num_usuarios'],
+                                    (bool) $form['es_publica'],
+                                    $form['web']
+                                );
+
+                                $controller->store($request);
+                                Flash::setSuccess('Biblioteca registrada correctamente.');
+                                View::redirect('bibliotecas.index');
+                                break;
+
+                            // ── Bibliotecas: Show ─────────────────────────────────
+                            case 'bibliotecas.show':
+                                $controller = DependencyInjection::getBibliotecaController();
+                                $id         = isset($_GET['id']) ? trim((string) $_GET['id']) : '';
+                                $biblioteca = $controller->show($id);
+                                View::render('bibliotecas/show', array(
+                                    'pageTitle'   => 'Detalle de biblioteca',
+                                    'biblioteca'  => $biblioteca,
+                                    'message'     => Flash::message(),
+                                ));
+                                break;
+
+                            // ── Bibliotecas: Edit ─────────────────────────────────
+                            case 'bibliotecas.edit':
+                                $controller = DependencyInjection::getBibliotecaController();
+                                $id         = isset($_GET['id']) ? trim((string) $_GET['id']) : '';
+                                $biblioteca = $controller->show($id);
+                                View::render('bibliotecas/edit', array(
+                                    'pageTitle'   => 'Editar biblioteca',
+                                    'biblioteca'  => $biblioteca,
+                                    'message'     => Flash::message(),
+                                    'errors'      => Flash::errors(),
+                                    'old'         => Flash::old(),
+                                ));
+                                break;
+
+                            // ── Bibliotecas: Update ───────────────────────────────
+                            case 'bibliotecas.update':
+                                $controller = DependencyInjection::getBibliotecaController();
+                                $form       = getBibliotecaUpdateFormData();
+                                $errors     = validateBibliotecaUpdateForm($form);
+
+                                if (!empty($errors)) {
+                                    Flash::setOld($form);
+                                    Flash::setErrors($errors);
+                                    Flash::setMessage('Corrige los errores del formulario.');
+                                    header('Location: ?route=bibliotecas.edit&id=' . urlencode($form['id']));
+                                    exit;
+                                }
+
+                                $request = new UpdateBibliotecaWebRequest(
+                                    $form['id'],
+                                    $form['nombre'],
+                                    $form['direccion'],
+                                    $form['ciudad'],
+                                    $form['pais'],
+                                    $form['telefono'],
+                                    $form['email'],
+                                    $form['horario_apertura'],
+                                    $form['horario_cierre'],
+                                    (int) $form['num_libros'],
+                                    (int) $form['num_usuarios'],
+                                    (bool) $form['es_publica'],
+                                    $form['web']
+                                );
+
+                                $controller->update($request);
+                                Flash::setSuccess('Biblioteca actualizada correctamente.');
+                                View::redirect('bibliotecas.index');
+                                break;
+
+                            // ── Bibliotecas: Delete ───────────────────────────────
+                            case 'bibliotecas.delete':
+                                $controller = DependencyInjection::getBibliotecaController();
+                                $id         = isset($_POST['id']) ? trim((string) $_POST['id']) : '';
+                                $controller->delete($id);
+                                Flash::setSuccess('Biblioteca eliminada correctamente.');
+                                View::redirect('bibliotecas.index');
+                                break;
+
                             default:
                                 throw new RuntimeException('Acción no soportada.');
                         }
@@ -301,6 +429,23 @@ $dotenv->load();
                             case 'users.delete':
                                 Flash::setMessage($msg);
                                 View::redirect('users.index');
+                                break;
+                            case 'bibliotecas.store':
+                                Flash::setOld(getBibliotecaCreateFormData());
+                                View::redirect('bibliotecas.create');
+                                break;
+                            case 'bibliotecas.update':
+                                $updateBibId = trim((string) ($_POST['id'] ?? ''));
+                                Flash::setOld(getBibliotecaUpdateFormData());
+                                header('Location: ?route=bibliotecas.edit&id=' . urlencode($updateBibId));
+                                exit;
+                            case 'bibliotecas.show':
+                            case 'bibliotecas.edit':
+                                View::redirect('bibliotecas.index');
+                                break;
+                            case 'bibliotecas.delete':
+                                Flash::setMessage($msg);
+                                View::redirect('bibliotecas.index');
                                 break;
                             default:
                                 View::render('home',
@@ -479,4 +624,101 @@ $dotenv->load();
                             }
 
                             return $errors;
+                        }
+
+                        // ──────────────────────────────────────────────────────────────
+                        // Biblioteca: Form data accessors
+                        // ──────────────────────────────────────────────────────────────
+                        function getBibliotecaCreateFormData(): array
+                        {
+                            return array(
+                                'nombre'           => isset($_POST['nombre'])           ? trim((string) $_POST['nombre'])           : '',
+                                'direccion'        => isset($_POST['direccion'])        ? trim((string) $_POST['direccion'])        : '',
+                                'ciudad'           => isset($_POST['ciudad'])           ? trim((string) $_POST['ciudad'])           : '',
+                                'pais'             => isset($_POST['pais'])             ? trim((string) $_POST['pais'])             : '',
+                                'telefono'         => isset($_POST['telefono'])         ? trim((string) $_POST['telefono'])         : '',
+                                'email'            => isset($_POST['email'])            ? trim((string) $_POST['email'])            : '',
+                                'horario_apertura' => isset($_POST['horario_apertura']) ? trim((string) $_POST['horario_apertura']) : '',
+                                'horario_cierre'   => isset($_POST['horario_cierre'])   ? trim((string) $_POST['horario_cierre'])   : '',
+                                'num_libros'       => isset($_POST['num_libros'])       ? (int) $_POST['num_libros']                : 0,
+                                'num_usuarios'     => isset($_POST['num_usuarios'])     ? (int) $_POST['num_usuarios']              : 0,
+                                'es_publica'       => isset($_POST['es_publica'])       && $_POST['es_publica'] === '1',
+                                'web'              => isset($_POST['web'])              ? trim((string) $_POST['web'])              : '',
+                            );
+                        }
+
+                        function getBibliotecaUpdateFormData(): array
+                        {
+                            $data           = getBibliotecaCreateFormData();
+                            $data['id']     = isset($_POST['id']) ? trim((string) $_POST['id']) : '';
+                            return $data;
+                        }
+
+                        // ──────────────────────────────────────────────────────────────
+                        // Biblioteca: Validators
+                        // ──────────────────────────────────────────────────────────────
+                        function validateBibliotecaCreateForm(array $form): array
+                        {
+                            $errors = array();
+
+                            if ($form['nombre'] === '') {
+                                $errors['nombre'] = 'El nombre es obligatorio.';
+                            } elseif (mb_strlen($form['nombre']) < 3) {
+                                $errors['nombre'] = 'El nombre debe tener al menos 3 caracteres.';
+                            }
+
+                            if ($form['direccion'] === '') {
+                                $errors['direccion'] = 'La dirección es obligatoria.';
+                            }
+
+                            if ($form['ciudad'] === '') {
+                                $errors['ciudad'] = 'La ciudad es obligatoria.';
+                            }
+
+                            if ($form['pais'] === '') {
+                                $errors['pais'] = 'El país es obligatorio.';
+                            }
+
+                            if ($form['telefono'] === '') {
+                                $errors['telefono'] = 'El teléfono es obligatorio.';
+                            } elseif (!preg_match('/^\+?[\d\s\-().]{6,20}$/', $form['telefono'])) {
+                                $errors['telefono'] = 'El formato del teléfono no es válido.';
+                            }
+
+                            if ($form['email'] === '') {
+                                $errors['email'] = 'El email es obligatorio.';
+                            } elseif (!filter_var($form['email'], FILTER_VALIDATE_EMAIL)) {
+                                $errors['email'] = 'El email no tiene un formato válido.';
+                            }
+
+                            if ($form['horario_apertura'] === '') {
+                                $errors['horario_apertura'] = 'El horario de apertura es obligatorio.';
+                            } elseif (!preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $form['horario_apertura'])) {
+                                $errors['horario_apertura'] = 'El horario debe tener el formato HH:MM.';
+                            }
+
+                            if ($form['horario_cierre'] === '') {
+                                $errors['horario_cierre'] = 'El horario de cierre es obligatorio.';
+                            } elseif (!preg_match('/^([01]\d|2[0-3]):[0-5]\d$/', $form['horario_cierre'])) {
+                                $errors['horario_cierre'] = 'El horario debe tener el formato HH:MM.';
+                            }
+
+                            if ($form['num_libros'] < 0) {
+                                $errors['num_libros'] = 'El número de libros no puede ser negativo.';
+                            }
+
+                            if ($form['num_usuarios'] < 0) {
+                                $errors['num_usuarios'] = 'El número de usuarios no puede ser negativo.';
+                            }
+
+                            if ($form['web'] !== '' && !filter_var($form['web'], FILTER_VALIDATE_URL)) {
+                                $errors['web'] = 'La URL del sitio web no tiene un formato válido.';
+                            }
+
+                            return $errors;
+                        }
+
+                        function validateBibliotecaUpdateForm(array $form): array
+                        {
+                            return validateBibliotecaCreateForm($form);
                         }
