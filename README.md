@@ -2,6 +2,8 @@
 
 Aplicación web PHP con arquitectura en capas (DDD) para gestionar usuarios y bibliotecas. Incluye autenticación, control de roles, recuperación de contraseña por correo y operaciones CRUD completas.
 
+<img width="1001" height="580" alt="image" src="https://github.com/user-attachments/assets/894008b2-b702-4444-9202-859eea5323e3" />
+
 ---
 
 ## Tecnologías
