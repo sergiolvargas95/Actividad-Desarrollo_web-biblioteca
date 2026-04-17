@@ -15,11 +15,11 @@ final class DependencyInjection
     {
         ClassLoader::loadClass('Connection');
         return new Connection(
-            host: '127.0.0.1',
+            host: 'sql200.infinityfree.com',
             port: 3306,
-            database: 'crudl',
-            username: 'root',
-            password: '',
+            database: 'if0_41686820_XXX',
+            username: 'if0_41686820',
+            password: 'Leondejuda594',
             charset: 'utf8mb4'
         );
     }

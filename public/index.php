@@ -464,23 +464,36 @@ $dotenv->load();
                             require $templateFile;
                             $htmlBody = (string) ob_get_clean();
 
-                            $mail = new PHPMailer\PHPMailer\PHPMailer(true);
-                            $mail->isSMTP();
-                            $mail->Host       = $_ENV['MAIL_HOST'];
-                            $mail->SMTPAuth   = true;
-                            $mail->Username   = $_ENV['MAIL_USERNAME'];
-                            $mail->Password   = $_ENV['MAIL_PASSWORD'];
-                            $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-                            $mail->Port       = (int) $_ENV['MAIL_PORT'];
-                            $mail->CharSet    = 'UTF-8';
+                            $payload = json_encode([
+                                'sender'  => [
+                                    'email' => $_ENV['MAIL_FROM_ADDRESS'],
+                                    'name'  => $_ENV['MAIL_FROM_NAME'],
+                                ],
+                                'to' => [
+                                    ['email' => $email, 'name' => $name],
+                                ],
+                                'subject'     => 'Recuperación de contraseña',
+                                'htmlContent' => $htmlBody,
+                            ]);
 
-                            $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
-                            $mail->addAddress($email, $name);
-                            $mail->isHTML(true);
-                            $mail->Subject = 'Recuperación de contraseña';
-                            $mail->Body    = $htmlBody;
+                            $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+                            curl_setopt_array($ch, [
+                                CURLOPT_RETURNTRANSFER => true,
+                                CURLOPT_POST           => true,
+                                CURLOPT_POSTFIELDS     => $payload,
+                                CURLOPT_HTTPHEADER     => [
+                                    'accept: application/json',
+                                    'api-key: ' . $_ENV['BREVO_API_KEY'],
+                                    'content-type: application/json',
+                                ],
+                            ]);
 
-                            $mail->send();
+                            $response = curl_exec($ch);
+                            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+                            if ($httpCode < 200 || $httpCode >= 300) {
+                                throw new RuntimeException('Error al enviar el correo: ' . $response);
+                            }
                         }
 
 
